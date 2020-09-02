@@ -1,0 +1,23 @@
+name: "Test composite action"
+description: "Test how composite actions behave in a workflow"
+inputs:
+  folder:
+    description: "Folder to execute the command in"
+    required: true
+    default: "~"
+  command:
+    description: "command to apply"
+    required: true
+    default: "apply"    
+runs:
+  using: "composite"
+  steps: 
+    - name: Echo action inputs
+      run: echo "Running ${{ inputs.command }} in target folder ${{ inputs.folder }}"
+
+    - name: Set target environment
+      run: echo ::set-env name=ENV_TARGET::$([[ "${GITHUB_REF}" =~ ^refs/tags/.* ]] && echo prod || echo test)
+      run: echo "Deploying to ${{ env.ENV_NAME_BASE }}${{ env.ENV_TARGET }}"
+
+    - name: Run script in parent action
+      run: /tf/rover/rover.sh logout

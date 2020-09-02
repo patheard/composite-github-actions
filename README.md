@@ -1,2 +1,2 @@
-# composite-github-actions
-Testing composite GitHub actions
+# Composite GitHub Actions
+Composite GitHub Actions used by other projects.

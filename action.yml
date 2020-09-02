@@ -14,10 +14,16 @@ runs:
   steps: 
     - name: Echo action inputs
       run: echo "Running ${{ inputs.command }} in target folder ${{ inputs.folder }}"
-
+      shell: bash
+      
     - name: Set target environment
       run: echo ::set-env name=ENV_TARGET::$([[ "${GITHUB_REF}" =~ ^refs/tags/.* ]] && echo prod || echo test)
+      shell: bash
+      
+    - name: Check target environment 
       run: echo "Deploying to ${{ env.ENV_NAME_BASE }}${{ env.ENV_TARGET }}"
+      shell: bash
 
     - name: Run script in parent action
       run: /tf/rover/rover.sh logout
+      shell: bash
